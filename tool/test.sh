@@ -43,7 +43,7 @@ set -e
 
 CLANG_ROOT="$HOME/bin/clang+llvm-3.1"
 PYTHON_BIN="/opt/local/bin/python2.7"
-CXX_GENERATOR_ROOT="/Users/minggo/SourceCode/cocos2d-x/tools/cxx-generator"
+CXX_GENERATOR_ROOT="/Users/minggo/SourceCode/cocos2d-x/tools/bindings-generator"
 
 _CONTENTS=""
 _CONTENTS+="[DEFAULT]"'\n'
