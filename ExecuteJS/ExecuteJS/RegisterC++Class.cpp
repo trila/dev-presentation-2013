@@ -21,12 +21,21 @@ public:
     {
         printf("father: func1 invoked\n");
     }
+    
+    virtual ~Father()
+    {
+        printf("father is destroyed\n");
+    }
 };
 
 class Son : public Father
 {
 public:
     Son() : m1(1), m2(2){}
+    ~Son()
+    {
+        printf("son is destroyed\n");
+    }
     
     int func2(int a, int b)
     {
@@ -61,10 +70,15 @@ static JSClass *father_class = NULL;
 static JSObject *father_prototype = NULL;
 // We only create an instance, in fact, every js object should have corresponding c++ object
 static Father *father = NULL;
+static JSObject *father_js = NULL;
 
 static void father_finalize(JSFreeOp *fop, JSObject *obj)
 {
-    printf("father is destroyed\n");
+    if (obj == father_js)
+    {
+        delete father;
+        father = NULL;
+    }
 }
 
 static JSBool func1_wrapper(JSContext *cx, uint32_t argc, jsval *vp)
@@ -76,8 +90,8 @@ static JSBool func1_wrapper(JSContext *cx, uint32_t argc, jsval *vp)
 static JSBool father_constructor(JSContext *cx, uint32_t  argc, jsval *vp)
 {
     father = new Father();
-    JSObject *obj = JS_NewObject(cx, father_class, father_prototype, NULL);
-    JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(obj));
+    father_js = JS_NewObject(cx, father_class, father_prototype, NULL);
+    JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(father_js));
     
     return JS_TRUE;
 }
@@ -122,10 +136,15 @@ static void register_father(JSContext *cx, JSObject *global)
 static JSClass *son_class = NULL;
 static JSObject *son_prototype = NULL;
 static Son *son = NULL;
+static JSObject *son_js = NULL;
 
 static void son_finalize(JSFreeOp *fop, JSObject *obj)
 {
-    printf("son is destroyed\n");
+    if (obj == son_js)
+    {
+        delete son;
+        son = NULL;
+    }
 }
 
 static JSBool func2_wrapper(JSContext *cx, uint32_t argc, jsval *vp)
@@ -156,8 +175,8 @@ static JSBool func3_wrapper(JSContext *cx, uint32_t argc, jsval *vp)
 static JSBool son_constructor(JSContext *cx, uint32_t  argc, jsval *vp)
 {
     son = new Son();
-    JSObject *obj = JS_NewObject(cx, son_class, son_prototype, father_prototype);
-    JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(obj));
+    son_js = JS_NewObject(cx, son_class, son_prototype, NULL);
+    JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(son_js));
     
     return JS_TRUE;
 }
@@ -255,10 +274,10 @@ int registerClass()
      * Errors are conventionally saved in a JSBool variable named ok.
      */
     std::string script = "var son = new Son(); \
-                         son.func1(); \
-                         var v = son.func2(1, 2); \
-                         v = son.func2(3, v); \
-                         Son.func3();";
+                          son.func1(); \
+                          var result = son.func2(1, 1); \
+                          son.func2(result, 3); \
+                          Son.func3();";
     jsval rval;
     JSBool ok;
     const char *filename = "noname";
