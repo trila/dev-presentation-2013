@@ -22,7 +22,7 @@ static JSClass global_class = {
     JSCLASS_NO_OPTIONAL_MEMBERS
 };
 
-static JSBool executeFunctionWithOwner(JSContext *cx, JSObject* owner, const char *name, uint32_t argc = 0, jsval *vp = NULL, jsval* retVal = NULL)
+static JSBool executeFunctionWithOwner(JSContext *cx, JSObject* owner, const char *name)
 {
     JSBool bRet = JS_FALSE;
     JSBool hasAction;
@@ -40,13 +40,14 @@ static JSBool executeFunctionWithOwner(JSContext *cx, JSObject* owner, const cha
             }
             
             JSAutoCompartment ac(cx, obj);
-            if (retVal) {
-                bRet = JS_CallFunctionName(cx, obj, name, argc, vp, retVal);
-            }
-            else {
-                jsval jsret;
-                bRet = JS_CallFunctionName(cx, obj, name, argc, vp, &jsret);
-            }
+
+            jsval jsret;
+            JSString *str = JS_NewStringCopyZ(cx, "hello");
+            jsval arg = STRING_TO_JSVAL(str);
+            bRet = JS_CallFunctionName(cx, obj, name, 1, &arg, &jsret);
+            
+            
+            printf("result is %d\n", JSVAL_TO_INT(jsret));
         }
     }while(0);
     return bRet;
@@ -112,7 +113,7 @@ int invokeJSFunction()
      *
      * Errors are conventionally saved in a JSBool variable named ok.
      */
-    std::string script = "function js_func() { log('it is js function') }";
+    std::string script = "function js_func(s) { log('it is js function ' + s); return 1 + 1; }";
     jsval rval;
     JSString *str;
     JSBool ok;

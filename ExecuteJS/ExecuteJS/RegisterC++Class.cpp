@@ -132,11 +132,8 @@ static JSBool func2_wrapper(JSContext *cx, uint32_t argc, jsval *vp)
 {
     int arg0 = 0;
     int arg1 = 0;
-    JSBool ok = JS_TRUE;
-    jsval *argv = JS_ARGV(cx, vp);
-    ok = JS_ValueToECMAInt32(cx, argv[0], &arg0);
-    ok = JS_ValueToECMAInt32(cx, argv[1], &arg1);
-    if (!ok)
+    // parmater types: https://developer.mozilla.org/en-US/docs/SpiderMonkey/JSAPI_Reference/JS_ConvertArguments
+    if (! JS_ConvertArguments(cx, argc, JS_ARGV(cx, vp), "ii", &arg0, &arg1))
     {
         printf("error parameters");
         return JS_FALSE;

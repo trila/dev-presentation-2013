@@ -1,6 +1,6 @@
 
 
 var simple_native = new SimpleNativeClass();
-simple_native.print(simple_native.getSomeField());
+simple_native.log(simple_native.getSomeField());
 
 

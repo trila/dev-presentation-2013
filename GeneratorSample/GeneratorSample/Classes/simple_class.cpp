@@ -7,6 +7,6 @@ int SimpleNativeClass::getSomeField() {
 	return m_someField;
 }
 
-void SimpleNativeClass::print(const char* message) {
+void SimpleNativeClass::log(const char* message) {
 	printf("%s\n", message);
 }

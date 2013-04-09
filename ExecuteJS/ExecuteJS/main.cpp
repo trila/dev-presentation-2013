@@ -18,7 +18,7 @@ int main(int argc, const char * argv[])
     // executeJS();
     
     // c++ invoke javascript function
-    // return invokeJSFunction();
+    // invokeJSFunction();
     
     // bind c++ class to js
     registerClass();

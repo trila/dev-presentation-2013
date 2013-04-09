@@ -16,7 +16,7 @@ public:
 	// these methods are simple, can be defined inline
 	int getSomeField();
 
-	void print(const char* message);
+	void log(const char* message);
 };
 
 #endif

@@ -30,7 +30,9 @@ int executeJS()
     JSContext *cx;
     JSObject  *global;
     
-    /* Create a JS runtime. You always need at least one runtime per process. */
+    /* Create a JS runtime. You always need at least one runtime per process. 
+     * @parameter maxbytes: Maximum number of allocated bytes after which garbage collection is run.
+     */
     rt = JS_NewRuntime(8 * 1024 * 1024);
     if (rt == NULL)
         return 1;
@@ -38,6 +40,8 @@ int executeJS()
     /*
      * Create a context. You always need a context per thread.
      * Note that this program is not multi-threaded.
+     * @parameter stackchunksize: The size, in bytes, of each "stack chunk". 
+     *                            This is a memory management tuning parameter which most users should not adjust. 8192 is a good default value.
      */
     cx = JS_NewContext(rt, 8192);
     if (cx == NULL)
@@ -69,7 +73,7 @@ int executeJS()
      *
      * Errors are conventionally saved in a JSBool variable named ok.
      */
-    std::string script = "3 + 8;";
+    std::string script = "'hello world'";
     jsval rval;
     JSString *str;
     JSBool ok;
