@@ -42,12 +42,9 @@ static JSBool executeFunctionWithOwner(JSContext *cx, JSObject* owner, const cha
             JSAutoCompartment ac(cx, obj);
 
             jsval jsret;
-            JSString *str = JS_NewStringCopyZ(cx, "hello");
+            JSString *str = JS_NewStringCopyZ(cx, "hello world");
             jsval arg = STRING_TO_JSVAL(str);
-            bRet = JS_CallFunctionName(cx, obj, name, 1, &arg, &jsret);
-            
-            
-            printf("result is %d\n", JSVAL_TO_INT(jsret));
+            JS_CallFunctionName(cx, obj, name, 1, &arg, &jsret);
         }
     }while(0);
     return bRet;
@@ -103,7 +100,7 @@ int invokeJSFunction()
     if (!JS_InitStandardClasses(cx, global))
         return 1;
     
-    JS_DefineFunction(cx, global, "log", log, 0, JSPROP_READONLY | JSPROP_PERMANENT);
+    JS_DefineFunction(cx, global, "log", log, 1, JSPROP_READONLY | JSPROP_PERMANENT);
     
     /* Your application code here. This may include JSAPI calls
      * to create your own custom JavaScript objects and to run scripts.
@@ -113,7 +110,7 @@ int invokeJSFunction()
      *
      * Errors are conventionally saved in a JSBool variable named ok.
      */
-    std::string script = "function js_func(s) { log('it is js function ' + s); return 1 + 1; }";
+    std::string script = "function js_func(s) { log('it is js function ' + s);}";
     jsval rval;
     JSString *str;
     JSBool ok;

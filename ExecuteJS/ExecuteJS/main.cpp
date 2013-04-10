@@ -15,13 +15,13 @@
 int main(int argc, const char * argv[])
 {
     // c++ execute javascript file
-    // executeJS();
+    executeJS();
     
     // c++ invoke javascript function
     // invokeJSFunction();
     
     // bind c++ class to js
-    registerClass();
+    // registerClass();
     
     return 0;
 }

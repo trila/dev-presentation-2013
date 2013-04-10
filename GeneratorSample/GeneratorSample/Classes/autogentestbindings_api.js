@@ -5,16 +5,16 @@
 SimpleNativeClass = {
 
 /**
+ * @method print
+ * @param {const char*}
+ */
+print : function () {},
+
+/**
  * @method getSomeField
  * @return A value converted from C/C++ "int"
  */
 getSomeField : function () {},
-
-/**
- * @method log
- * @param {const char*}
- */
-log : function () {},
 
 /**
  * @method SimpleNativeClass

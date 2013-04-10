@@ -73,7 +73,7 @@ int executeJS()
      *
      * Errors are conventionally saved in a JSBool variable named ok.
      */
-    std::string script = "'hello world'";
+    std::string script = "'hello world cocos2d'";
     jsval rval;
     JSString *str;
     JSBool ok;
