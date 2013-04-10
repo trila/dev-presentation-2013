@@ -57,4 +57,4 @@ echo -e $_CONTENTS > userconf.ini
 # Generate bindings for simpletest using Android's system headers
 echo "Generating bindings for simpletest with Android headers..."
 set -x
-LD_LIBRARY_PATH=${CLANG_ROOT}/lib $PYTHON_BIN ${CXX_GENERATOR_ROOT}/generator.py ${CXX_GENERATOR_ROOT}/test/test.ini -s testandroid -o /Users/minggo/SourceCode/dev-presentation-2013/GeneratorSample/GeneratorSample/Classes
+LD_LIBRARY_PATH=${CLANG_ROOT}/lib $PYTHON_BIN ${CXX_GENERATOR_ROOT}/generator.py /Users/minggo/SourceCode/dev-presentation-2013/tool/test.ini -s testandroid -o /Users/minggo/SourceCode/dev-presentation-2013/GeneratorSample/GeneratorSample/Classes
